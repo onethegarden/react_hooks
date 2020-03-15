@@ -5,6 +5,8 @@ const App = () => {
   const sayHello = () => console.log("hello");
   const [number, setNumber] = useState(0);
   const[aNumber, setAnumber] = useState(0);
+  useEffect(sayHello,[]);//fisrt : function, second : depend
+  //useEffect : componentDidMount, ComponenetWillUnMoount, ComponentDidUpdate
   return (
     <div>
       <div>Hi</div>
