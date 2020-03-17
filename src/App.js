@@ -1,25 +1,30 @@
 import React, {useRef, useEffect} from 'react';
 import './App.css';
 
-const useClick = (onClick) =>{
-  const element = useRef();
-  useEffect(()=>{
-    if(element.current){
-      element.current.addEventListener("click", onClick);
+const useConfirm = (message="", onConfirm, onCancel) => {
+ if(!onConfirm || typeof onConfirm !=="function"){
+    return;
+  }
+  if(onCancel && typeof onConfirm !=="function"){
+    return;
+  }
+  const confirmAction = () => {
+    if(window.confirm(message)){
+      onConfirm();
+    }else{
+      onCancel();
     }
-    return () =>{
-      element.curruent.removeEventlistner("click" , onClick);
-    }
-  },[])
-  return element;
+  }
+  return confirmAction;
 }
 
 const App = () => {
-  const sayHello = () =>console.log("sayHello");
-  const title = useClick(sayHello);
+  const deleteWorld = () =>console.log("delete");
+  const abort = () => console.log("Aborted");
+  const confirmDelete = useConfirm("are you sure?", deleteWorld, abort);
   return (
     <div>
-      <h1 ref ={title} >hi</h1>
+      <button onClick={confirmDelete}>Delete the world</button>
     </div>
   );
 }
