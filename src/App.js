@@ -1,30 +1,23 @@
 import React, {useRef, useEffect} from 'react';
 import './App.css';
 
-const useConfirm = (message="", onConfirm, onCancel) => {
- if(!onConfirm || typeof onConfirm !=="function"){
-    return;
-  }
-  if(onCancel && typeof onConfirm !=="function"){
-    return;
-  }
-  const confirmAction = () => {
-    if(window.confirm(message)){
-      onConfirm();
-    }else{
-      onCancel();
-    }
-  }
-  return confirmAction;
+const usePreventLeave = () =>{
+  const listener = event =>{
+    event.preventDefault();
+    event.returnValue = "";
+  } 
+   const enablePrevent = () => window.addEventListener("beforeunload",listener);
+   const disablePrevent = () =>
+    window.addEventListener("beforeunload", listener);
+   return {enablePrevent, disablePrevent};
 }
 
 const App = () => {
-  const deleteWorld = () =>console.log("delete");
-  const abort = () => console.log("Aborted");
-  const confirmDelete = useConfirm("are you sure?", deleteWorld, abort);
+  const {enablePrevent, disablePrevent } = usePreventLeave();
   return (
     <div>
-      <button onClick={confirmDelete}>Delete the world</button>
+      <button onClick={enablePrevent}>Protect</button>
+      <button onClick={disablePrevent}>UnProtect</button>
     </div>
   );
 }
