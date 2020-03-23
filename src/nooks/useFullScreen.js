@@ -1,7 +1,4 @@
-import React, {useState, useRef, useEffect} from 'react';
-import './App.css';
-
-const useFullscreen = callback => {
+export const useFullscreen = callback => {
   const element = useRef();
   const runCb = isFull => {
     if (callback && typeof callback === "function") {
@@ -37,25 +34,3 @@ const useFullscreen = callback => {
   };
   return { element, triggerFull, exitFull };
 };
-
-const App = () => {
-  const onfulls = isFull => {
-    console.log(isFull?"we are full":"we still small");
-  }
-  const { element, triggerFull,exitFull } = useFullscreen();
-  return (
-    <div >
-      <div ref={element}>
-      <img 
-      width="200px"
-        ref={element}
-        src="https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/article_thumbnails/other/cat_relaxing_on_patio_other/1800x1200_cat_relaxing_on_patio_other.jpg?resize=750px:*"
-      />
-      <button onClick={triggerFull}>Make fullscreen</button>
-      </div>
-      <button onClick={exitFull}>Exit fullscreen</button>
-    </div>
-  );
-}
-
-export default App;
